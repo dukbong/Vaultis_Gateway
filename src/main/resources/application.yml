@@ -1,0 +1,39 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: vaultis-gateway
+
+  cloud:
+    gateway:
+#      default-filters:
+#        - name: GlobalFilter
+#          args:
+#            baseMessage: Spring Cloud Gateway Global Filter
+#            preLogger: true
+#            postLogger: true
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: crypto-service
+          uri: lb://CRYPTO-SERVICE
+          predicates:
+            - Path=/crypto-service/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/crypto-service/(?<segment>.*), /$\{segment}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
