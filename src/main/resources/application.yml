@@ -31,6 +31,14 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/crypto-service/(?<segment>.*), /$\{segment}
 
+        - id: decryption-service-go
+          uri: lb://DECRYPTION-GO
+          predicates:
+            - Path=/decryption-go/**
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/decryption-go/(?<segment>.*), /$\{segment}
+
 eureka:
   client:
     register-with-eureka: true
