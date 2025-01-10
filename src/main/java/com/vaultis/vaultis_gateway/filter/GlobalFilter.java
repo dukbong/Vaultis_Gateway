@@ -27,7 +27,6 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
             ServerHttpResponse response = exchange.getResponse();
                 log.info("Global Filter Start : request id -> {}", request.getId());
                 log.info("Global Filter start : request uri -> {}", request.getURI());
-                log.info("Global Filter start : request header -> {}", request.getHeaders().get("Authorization"));
             return chain.filter(exchange).then(Mono.fromRunnable(() ->{
                     log.info("Global Filter End : response code -> {}", response.getStatusCode());
             }));
