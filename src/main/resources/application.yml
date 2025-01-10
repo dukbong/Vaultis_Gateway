@@ -7,8 +7,8 @@ spring:
 
   cloud:
     gateway:
-      default-filters:
-        - name: GlobalFilter
+#      default-filters:
+#        - name: GlobalFilter
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
@@ -17,6 +17,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - UserFilter
 
         - id: crypto-service
           uri: lb://CRYPTO-SERVICE
